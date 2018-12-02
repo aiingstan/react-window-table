@@ -1,6 +1,7 @@
 import React from 'react';
 import { FixedSizeGrid, FixedSizeList } from 'react-window';
 import scrollbarSize from 'dom-helpers/util/scrollbarSize';
+import _ from 'lodash';
 // import { Dropdown, Menu } from 'antd';
 // import 'antd/dist/antd.css';
 // import SimpleBar from 'simplebar/dist/simplebar';
@@ -9,7 +10,7 @@ import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 const columnCount = 25;
 const rowCount = 200;
 const columnWidth = 100;
-const rowHeight = 42;
+const rowHeight = 40;
 
 // const menu = (
 //   <Menu>
@@ -85,7 +86,6 @@ export default class SyncTables extends React.Component {
           textAlign: 'center',
           width: columnWidth,
           height: rowHeight,
-          lineHeight: rowHeight,
         }}
         key="left-header-cell"
       >
@@ -93,25 +93,33 @@ export default class SyncTables extends React.Component {
       </div>,
 
       // left column
-      <FixedSizeList
-        direction="vertical"
-        initialScrollOffset={0}
-        width={columnWidth}
-        height={height - rowHeight - scrollbarSize()}
-        itemCount={rowCount}
-        itemSize={rowHeight}
-        ref={this.leftList}
+      <div
         style={{
-          overflow: 'hidden',
+          width: columnWidth,
+          height: height - rowHeight - scrollbarSize(),
           backgroundColor: 'lightgray',
-          position: 'absolute',
           top: rowHeight,
-          left: 0,
         }}
         key="left-list"
+        className="leftSide"
       >
-        {this._leftCellHof(activeRowIndex)}
-      </FixedSizeList>,
+        <div
+          ref={this.leftList}
+          className="leftSideContent"
+        >
+          {/* {this._leftCellHof(activeRowIndex)} */}
+          {_.range(1000).map(i => (
+            <div
+              style={{
+                width: columnWidth,
+                height: rowHeight,
+              }}
+              className="normal"
+              key={i}
+            >{i}</div>
+          ))}
+        </div>
+      </div>,
 
       // header
       <FixedSizeList
@@ -150,7 +158,9 @@ export default class SyncTables extends React.Component {
         onScroll={({ scrollLeft, scrollTop }) =>
           {
             this.headerList.current.scrollTo(scrollLeft)
-            this.leftList.current.scrollTo(scrollTop)
+            // this.leftList.current.style.transform = `translate3d(0,-${scrollTop}px,0)`;
+            // this.leftList.current.scrollTo(scrollTop)
+            this.leftList.current.style.top = `-${scrollTop}px`;
           }
 
         }

@@ -18,5 +18,14 @@ body {
 .active {
   border: 1px solid rgba(0, 0, 0, 0.3);
   text-align: center;
-  line-height: 42px;
+  box-sizing: border-box;
+}
+
+.leftSide {
+  overflow: hidden;
+  position: absolute;
+}
+
+.leftSideContent {
+  position: relative;
 }
