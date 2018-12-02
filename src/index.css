@@ -11,7 +11,7 @@ body {
 }
 
 .active {
-  color: black;
+  color: black !important;
 }
 
 .normal,
@@ -22,10 +22,10 @@ body {
 }
 
 .leftSide {
-  overflow: hidden;
-  position: absolute;
-}
-
-.leftSideContent {
-  position: relative;
+  position: sticky;
+  height: 100%;
+  background: rgba(90, 90, 90, 0.5);
+  color: #add566;
+  left: 0;
+  z-index: 20;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import SyncTables from './SyncTables';
+import StickyTable from './StickyTable';
 
 export default class App extends React.Component {
   constructor() {
@@ -10,9 +11,9 @@ export default class App extends React.Component {
     };
   }
 
-  onLeftGridClick = e => {
+  onCellClick = e => {
     const { rowIndex } = e.target.dataset;
-    this.setState({
+    rowIndex && this.setState({
       activeRowIndex: parseInt(rowIndex),
     });
   };
@@ -51,9 +52,9 @@ export default class App extends React.Component {
                     backgroundColor: 'coral',
                     color: 'rgba(255,255,255,0.9)',
                   }}
-                  onClick={this.onLeftGridClick}
+                  onClick={this.onCellClick}
                 >
-                  <SyncTables
+                  <StickyTable
                     width={width}
                     height={height}
                     activeRowIndex={this.state.activeRowIndex}
