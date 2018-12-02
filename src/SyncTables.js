@@ -12,6 +12,8 @@ const rowCount = 200;
 const columnWidth = 100;
 const rowHeight = 40;
 
+let dataGrid = null;
+
 // const menu = (
 //   <Menu>
 //     <Menu.Item key="0">
@@ -34,9 +36,10 @@ export default class SyncTables extends React.Component {
   }
 
   componentDidMount() {
-    // const grid = this.dataGrid.current;
+    const grid = this.dataGrid.current;
     // new SimpleBar(this.dataGridOuter.current);
-    // console.log(this.dataGridOuter.current);
+    console.log(grid);
+    dataGrid = grid;
     // this.dataGrid.current.style.backgroundColor='red';
     // const dataGridInner = this.dataGridInner.current;
   }
@@ -61,7 +64,18 @@ export default class SyncTables extends React.Component {
     </div>
   )
 
-  _bodyCellHof = activeRowIndex => ({columnIndex, rowIndex, style}) => {
+  _bodyCellHof = activeRowIndex => ({columnIndex, rowIndex, style, isScrolling}) => {
+    if (columnIndex === 0 && dataGrid) {
+      style = Object.assign(
+        {},
+        style,
+        {
+          left: dataGrid.state.scrollLeft,
+          backgroundColor: 'lightgrey'
+        }
+      )
+    }
+
     return (
       <div
         style={style}
@@ -92,35 +106,6 @@ export default class SyncTables extends React.Component {
         {`${width}x${height}`}
       </div>,
 
-      // left column
-      <div
-        style={{
-          width: columnWidth,
-          height: height - rowHeight - scrollbarSize(),
-          backgroundColor: 'lightgray',
-          top: rowHeight,
-        }}
-        key="left-list"
-        className="leftSide"
-      >
-        <div
-          ref={this.leftList}
-          className="leftSideContent"
-        >
-          {/* {this._leftCellHof(activeRowIndex)} */}
-          {_.range(1000).map(i => (
-            <div
-              style={{
-                width: columnWidth,
-                height: rowHeight,
-              }}
-              className="normal"
-              key={i}
-            >{i}</div>
-          ))}
-        </div>
-      </div>,
-
       // header
       <FixedSizeList
         direction="horizontal"
@@ -149,24 +134,24 @@ export default class SyncTables extends React.Component {
         columnWidth={columnWidth}
         rowHeight={rowHeight}
         height={height - rowHeight}
-        width={width - columnWidth + scrollbarSize()}
+        width={width + scrollbarSize()}
         ref={this.dataGrid}
         outerRef={this.dataGridOuter}
         innerRef={this.dataGridInner}
+        useIsScrolling={true}
         // // When a scroll occurs in the body grid,
         // // synchronize the scroll position of the header grid
         onScroll={({ scrollLeft, scrollTop }) =>
           {
-            this.headerList.current.scrollTo(scrollLeft)
+            // this.headerList.current.scrollTo(scrollLeft)
             // this.leftList.current.style.transform = `translate3d(0,-${scrollTop}px,0)`;
             // this.leftList.current.scrollTo(scrollTop)
-            this.leftList.current.style.top = `-${scrollTop}px`;
+            // this.leftList.current.style.top = `-${scrollTop}px`;
           }
 
         }
         style={{
           position: 'absolute',
-          left: columnWidth,
           top: rowHeight,
         }}
         key="data-grid"
