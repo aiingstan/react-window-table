@@ -13,7 +13,7 @@ export default class App extends React.Component {
   onLeftGridClick = e => {
     const { rowIndex } = e.target.dataset;
     this.setState({
-      activeRowIndex: rowIndex
+      activeRowIndex: parseInt(rowIndex),
     });
   };
 
