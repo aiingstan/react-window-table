@@ -12,8 +12,6 @@ const rowCount = 200;
 const columnWidth = 100;
 const rowHeight = 40;
 
-let dataGrid = null;
-
 // const menu = (
 //   <Menu>
 //     <Menu.Item key="0">
@@ -33,13 +31,24 @@ export default class SyncTables extends React.Component {
     this.headerList = React.createRef();
     this.leftList = React.createRef();
     this.dataGrid = React.createRef();
+    this.dataGridOuter = React.createRef();
+    this.dataGridInner = React.createRef();
   }
 
   componentDidMount() {
-    const grid = this.dataGrid.current;
+    const grid = this.dataGridOuter.current;
     // new SimpleBar(this.dataGridOuter.current);
     console.log(grid);
-    dataGrid = grid;
+    const el = document.createElement('div');
+    // el.style.width = `${columnWidth}px`;
+    // el.style.height = '50%';
+    // el.style.zIndex = 100;
+    // el.style.opacity = 0.3;
+    // el.style.background = 'white';
+    // el.style.position = 'sticky';
+    // el.style.bottom = 0;
+    // el.style.left = 0;
+    grid.appendChild(el);
     // this.dataGrid.current.style.backgroundColor='red';
     // const dataGridInner = this.dataGridInner.current;
   }
@@ -65,16 +74,16 @@ export default class SyncTables extends React.Component {
   )
 
   _bodyCellHof = activeRowIndex => ({columnIndex, rowIndex, style, isScrolling}) => {
-    if (columnIndex === 0 && dataGrid) {
-      style = Object.assign(
-        {},
-        style,
-        {
-          left: dataGrid.state.scrollLeft,
-          backgroundColor: 'lightgrey'
-        }
-      )
-    }
+    // if (columnIndex === 0 && dataGrid) {
+    //   style = Object.assign(
+    //     {},
+    //     style,
+    //     {
+    //       left: dataGrid.state.scrollLeft,
+    //       backgroundColor: 'lightgrey'
+    //     }
+    //   )
+    // }
 
     return (
       <div
